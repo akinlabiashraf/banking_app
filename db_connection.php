@@ -3,7 +3,7 @@ $localhost = 'localhost';
 
 $root = 'root';
 
-$password = '';
+$password = 'Tescode@123';
 
 $db_con = 'banking_app';
 

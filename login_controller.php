@@ -9,10 +9,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = trim($_POST['password']);
 
     // Prepare SQL query
-    $query = "SELECT account_number, password FROM users WHERE email = ?";
+    $query = "SELECT * FROM users WHERE email = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email);
     $stmt->execute();
+
     $result = $stmt->get_result();
 
     // Check if the user exists
@@ -24,13 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Password is correct, set up the session
             $_SESSION['account_number'] = $user['account_number'];
             $_SESSION['email'] = $email;
+            $_SESSION['user_id'] = $user['user_id'];
 
             // Redirect to a dashboard or home page
             header("Location: user_dashboard.php");
+
             exit();
         } else {
-            // Password is incorrect
-            // echo "Invalid email or password.";
             $err_msg = '<center><p style="color:red;">You just provided invalid credentials. Please try again...</p></center>';
             $_SESSION['invalid_data'] = $err_msg;
             header('location:login.php');
